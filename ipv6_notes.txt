@@ -1,0 +1,44 @@
+6to4 IPv6 addresses always use the following IPv6 prefix (i.e. starts with): 2002::/16
+
+6rd: Refers to IPv6 Rapid Deployment, which is designed to be utilized by Internet service providers (ISPs) for quickly deploying IPv6 services across an existing IPv4 network. 6rd uses a stateless method for mapping IPv4 to IPv6 and also uses tunneling to get those IPv6 packets out to the IPv6 Internet. It is not something normally used in enterprise, SMB, or home networks, but you might see your ISP talk about it.
+
+6to4: 6to4 is an automatic transition technology that makes use of public IPv4 addresses on a host to connect to IPv6 resources. It tunnels its IPv6 traffic to a 6to4 relay router and has its IPv4 information embedded in its IPv6 address.
+CGN: Carrier Grade NAT (Network Address Translation) is sometimes call LSN (Large Scale NAT) and is where an ISP will provide RFC 1918 IPv4 addresses to the CPE device and then PAT (Port Address Translation) at a central router to conserve public IPv4 address space.
+
+Prefix: The 64 bit leftmost value in an IPv6 address is the network prefix. A network prefix contains a routing prefix and may contain a subnet ID. The network prefix and the interface ID (64 bits) complete an IPv6 address (128 bits).
+Teredo: Teredo is a transition technology that allows a host on an IPv4 network with NAT or PAT operating to obtain an IPv6 address and connect to IPv6 resource through a Teredo relay server. Depending on the prefix given by the Teredo server it may or may not be able to connect to public IPv6 resources.
+
+Provider Assigned (PA): IP address space that is provided from a service provider for the exclusive use of its customer. When the service provider is no longer providing service for the customer the IP address space is returned to the service provider.
+
+Provider Independent (PI): IP address space allocated from an RIR to a service provider or company for its use in its business operation. A service provider may delegate IP address space for customer use but the IP address still belongs to the service provider. See Provider Assigned for details. A business that has obtained PI IP address space is free to use the PI space as it requires and can use BGP to peer with multiple service providers to announce their PI space. This provides redundancy and allows the business to add or drop service providers as it needs over time.
+
+Unique local addresses are commonly called ULA (pronounced “You-LA”)
+
+ISATAP is a native transition tunneling technology available from the Windows Vista and Windows Server 2008 release
+on. It is designed to allow a host that has a public or private IPv4 address to be able to automatically assign and build
+itself an IPv6 address it can utilize to talk to the IPv6 intranet or IPv6 Internet. ISATAP utilizes DNS to determine
+what prefix it is to utilize and what gateway to use. ISATAP has the concept of global unique and private addresses
+depending on what the desired deployment use case requires.
+
+ISATAP has a specific format it follows so it is possible to look at an IPv6 address to determine if it is an ISATAP
+IPv6 address. An ISATAP host utilizes the following information to build out its IPv6 address:
+• ISATAP Router IPv6 Prefix (/64)
+• An IPv4 address it has assigned to an interface
+• The format is either <IPv6 Prefix>:0:5efe:<IPv4 address> or <IPv6 Prefix>:200:5efe:<IPv4 address>
+Prior to the 5efe is a flag to identify if the address is a private unicast (0) or a public unicast (200) address.
+
+Teredo is a native transition tunneling technology available from the Windows Vista release on.
+Teredo is defined in RFCs 4380, 5991, and 6081 and is specifically designed for IPv4 hosts that are behind
+a NAT device.
+Teredo has the following component roles defined:
+- Teredo Client is an IPv4 host behind NAT that makes use of the Teredo service.
+- Teredo Server is a server that is defined via a DNS namespace entry on the client and
+assigns out the IPv6 prefix to use.
+- Teredo Relay is commonly deployed in conjunction with the Teredo server role; it
+performs routing for Teredo clients to get out to other IPv6 resources.
+- Teredo Host-Specific Relay defines a host that is dual-stacked and can communicate via
+the IPv4 and IPv6 Internet. These hosts can communicate directly with a Teredo client
+over IPv4 without the need to use the Teredo relay, which saves intermediate steps in
+communication.
+The Teredo prefix is 2001::/32 and that prefix is used by Windows Vista and Windows Server 2008 through to
+current releases. Some older Windows OS releases used the 3ffe:831f::/32 prefix but that was deprecated
